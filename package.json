@@ -6,8 +6,8 @@
   "config": {
     "s3BucketName": "cold-lambda",
     "region": "us-east-1",
-    "cloudFormationStackName": "AwsServerlessExpressStack",
-    "functionName": "AwsServerlessExpressFunction",
+    "cloudFormationStackName": "ColdLambdaExpress",
+    "functionName": "ColdLambdaExpress",
     "accountId": "173028852725"
   },
   "scripts": {

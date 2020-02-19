@@ -54,14 +54,14 @@ Resources:
   AwsServerlessExpressFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://cold-lambda/16079d9afb9d9de37307ed423d4ca957
+      CodeUri: s3://cold-lambda/d3ace2388cc646934eb72c2fd6624c16
       Handler: lambda.handler
       MemorySize: 1024
       Role:
         Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
-      Runtime: nodejs8.10
+      Runtime: nodejs12.x
       Timeout: 30
       Events:
         ProxyApiRoot:
