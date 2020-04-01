@@ -28,7 +28,7 @@ app.set('views', path.join(__dirname, 'views'))
 
 router.get('/', (req, res) => {
   res.render('index', {
-    apiUrl: req.apiGateway ? `https://${req.apiGateway.event.headers.Host}/${req.apiGateway.event.requestContext.stage}` : 'http://localhost:3000'
+    apiUrl: req.apiGateway ? `https://${req.apiGateway.event.headers.Host}` : 'http://localhost:3000'
   })
 })
 
@@ -58,6 +58,7 @@ router.post('/users', (req, res) => {
 })
 
 router.put('/users/:userId', (req, res) => {
+  console.log(req)
   const user = getUser(req.params.userId)
 
   if (!user) return res.status(404).json({})
