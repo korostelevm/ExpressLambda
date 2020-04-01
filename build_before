@@ -1,0 +1,32 @@
+# #! /usr/bin/env bash
+# set -ex
+
+
+# # GITHUB_TOKEN='e77d221007fb28a38b1002e7b7b1da49b3d07b1c'
+# # curl -s "https://api.github.com/repos/HeavyWater-Solutions/mixin-common-auth/releases/latest?access_token=$GITHUB_TOKEN" \
+# #     | jq '.assets[] | select(.name == "release.zip") | .url' \
+# #     | xargs -I {} curl -sSL -o temp.zip -H 'Accept: application/octet-stream' "{}?access_token=$GITHUB_TOKEN" && yes | unzip temp.zip && rm temp.zip
+
+
+
+# # root=$(pwd)
+
+# if [ $stage = "acceptance" ]; then
+#     cd mixin-common-auth 
+#     npm install
+#     cd ..
+#     npm install -g webpack
+#     npm install -g webpack-cli
+# fi
+
+# cd vue_microfrontend
+# if [ $stage = "acceptance" ]; then
+#     yes | npm install
+# fi
+# webpack --config ./webpack.config.js -p
+
+# cd ..
+# cp vue_microfrontend/build/microfrontend/app.js ./ui/app.js
+# cp vue_microfrontend/public/index.html ./ui/index.html
+
+# cd $root

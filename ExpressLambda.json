@@ -1,0 +1,82 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Transform": "AWS::Serverless-2016-10-31",
+    "Description": "Serverless Express Application/API powered by API Gateway and Lambda",
+    "Resources": {
+        "ServiceApi": {
+            "Type": "AWS::Serverless::Api",
+            "Properties": {
+                "DefinitionUri": "s3://cold-lambda/ExpressLambda-xxxxxx/3ce02faf2b5e8d6a71bd55d1df124fb7",
+                "StageName": "Prod",
+                "Variables": {
+                    "ServiceApiFunction": {
+                        "Ref": "ServiceApiFunction"
+                    }
+                }
+            }
+        },
+        "ServiceApiFunction": {
+            "Type": "AWS::Serverless::Function",
+            "Properties": {
+                "CodeUri": "s3://cold-lambda/ExpressLambda-xxxxxx/cd79dbd01bc57324ce66e534506b229f",
+                "Handler": "lambda.handler",
+                "MemorySize": 1024,
+                "Runtime": "nodejs10.x",
+                "Timeout": 30,
+                "Policies": [
+                    {
+                        "Statement": [
+                            {
+                                "Effect": "Allow",
+                                "Action": [
+                                    "dynamodb:*"
+                                ],
+                                "Resource": "*"
+                            }
+                        ]
+                    }
+                ],
+                "Events": {
+                    "ProxyApiRoot": {
+                        "Type": "Api",
+                        "Properties": {
+                            "RestApiId": {
+                                "Ref": "ServiceApi"
+                            },
+                            "Path": "/",
+                            "Method": "ANY"
+                        }
+                    },
+                    "ProxyApiGreedy": {
+                        "Type": "Api",
+                        "Properties": {
+                            "RestApiId": {
+                                "Ref": "ServiceApi"
+                            },
+                            "Path": "/{proxy+}",
+                            "Method": "ANY"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "Outputs": {
+        "DeploymentStrategy": {
+            "Description": "Deployment strategy instruction for the service",
+            "Value": "ez_zdt"
+        },
+        "ApiUrl": {
+            "Description": "The API URL",
+            "Value": {
+                "Fn::Sub": "https://${ServiceApi}.execute-api.${AWS::Region}.amazonaws.com/"
+            }
+        },
+        "LambdaServiceApiLogs": {
+            "Description": "Api Lambda Logs",
+            "Value": {
+                "Fn::Sub": "https://console.aws.amazon.com/cloudwatch/home?region=${AWS::Region}#logStream:group=/aws/lambda/${ServiceApiFunction};streamFilter=typeLogStreamPrefix"
+            }
+        }
+    }
+}
