@@ -157,3 +157,5 @@ $RECYCLE.BIN/
 AskService.json
 # End of https://www.gitignore.io/api/osx,node,linux,windows
 Snowflake.json
+.env.json
+.env.json

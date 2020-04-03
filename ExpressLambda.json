@@ -1,7 +1,13 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Transform": "AWS::Serverless-2016-10-31",
-    "Description": "Serverless Express Application/API powered by API Gateway and Lambda",
+    "Description": "Serverless Express Microfrontend",
+    "Parameters": {
+        "CosmosDbConnectionString": {
+            "Type": "String",
+            "Default": "{{resolve:ssm:/account/cosmosdb-connection-string:1}}"
+        }
+    },
     "Resources": {
         "ServiceApi": {
             "Type": "AWS::Serverless::Api",
@@ -18,8 +24,8 @@
         "ServiceApiFunction": {
             "Type": "AWS::Serverless::Function",
             "Properties": {
-                "CodeUri": "s3://cold-lambda/ExpressLambda-xxxxxx/cd79dbd01bc57324ce66e534506b229f",
-                "Handler": "lambda.handler",
+                "CodeUri": "s3://cold-lambda/ExpressLambda-xxxxxx/74e2e1d9d3a4506c7d1269aeec94c5d8",
+                "Handler": "service.handler",
                 "MemorySize": 1024,
                 "Runtime": "nodejs10.x",
                 "Timeout": 30,
@@ -36,6 +42,13 @@
                         ]
                     }
                 ],
+                "Environment": {
+                    "Variables": {
+                        "CosmosDbConnectionString": {
+                            "Ref": "CosmosDbConnectionString"
+                        }
+                    }
+                },
                 "Events": {
                     "ProxyApiRoot": {
                         "Type": "Api",
