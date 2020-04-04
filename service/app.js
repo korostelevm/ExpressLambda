@@ -34,7 +34,7 @@ router.get('/public/microfrontend.js*', async (req, res) => {
   var module_path = `${__dirname}/${req.path.slice(1)}`
   if(req.apiGateway){
     var umd_module = await fs.readFileSync(module_path)
-    res.send(umd_module.toString().replace(/http:\/\/localhost:3000\//g, req.apiGateway.event.headers.Host))
+    res.send(umd_module.toString().replace(/http:\/\/localhost:3000/g, req.apiGateway.event.headers.Host))
   }else{
     res.sendFile(module_path)
   }
@@ -45,9 +45,9 @@ router.get('/', (req, res) => {
   res.sendFile(`${__dirname}/public/index.html`)
 })
 
-// router.get('/public/*', (req, res) => {
-  // res.sendFile(`${__dirname}/${req.path.slice(1)}`)
-// })
+router.get('/public/*', (req, res) => {
+  res.sendFile(`${__dirname}/${req.path.slice(1)}`)
+})
 
 router.get('/users', (req, res) => {
   res.json(users)

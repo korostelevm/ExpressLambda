@@ -29,7 +29,7 @@ export default {
     methods: {
        stub: function(d) {
         return new Promise((resolve,reject)=>{
-          fetch(this.$api + 'users', {
+          fetch(this.$api + '/users', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
