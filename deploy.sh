@@ -13,14 +13,14 @@ Deploying -
     app_name: ${app_name}
 
     "
-echo -n "you down with that? (y/n)? "
-read answer
-if [ "$answer" != "${answer#[Yy]}" ] ;then
-    echo Deploying ${app_name}-${version}
-else
-    echo Aborted
-    exit 0
-fi
+# echo -n "you down with that? (y/n)? "
+# read answer
+# if [ "$answer" != "${answer#[Yy]}" ] ;then
+#     echo Deploying ${app_name}-${version}
+# else
+#     echo Aborted
+#     exit 0
+# fi
 
 npm run build:microfrontend
 
