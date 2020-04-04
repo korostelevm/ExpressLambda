@@ -9,33 +9,28 @@
     "stage": ""
   },
   "scripts": {
-    "build:microfrontend": "webpack --config ./vue_microfrontend/webpack.config.js -p && cp ./vue_microfrontend/public/index.html ./service/views/index.html",
+    "install:all": "npm i && concurrently \"cd service && npm i\"  \"cd vue && npm i\"",
+    "build:labmda": "sam build",
+    "build:microfrontend": "rm -rf ./service/public/* && cd vue && ./node_modules/webpack/bin/webpack.js --config ./webpack.config.js -p  && cp ./public/* ../service/public/",
     "start": "export env=$npm_config_env && concurrently \"npm run start:shell\"  \"npm run start:microfrontend\"  \"nodemon app.local.js\"",
     "start:shell": "sleep 3  && open http://localhost:1111/",
-    "start:microfrontend": "cd vue_microfrontend && node ./node_modules/@vue/cli-service/bin/vue-cli-service.js serve --port 1111"
+    "start:microfrontend": "cd vue && node ./node_modules/@vue/cli-service/bin/vue-cli-service.js serve --port 1111"
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/core": "^7.9.0",
-    "aws-serverless-express": "^3.3.3",
-    "babel-loader": "^8.1.0",
+    "aws-serverless-express": "^3.3.8",
     "body-parser": "^1.17.1",
     "compression": "^1.6.2",
-    "concurrently": "^5.1.0",
     "cors": "^2.8.3",
-    "css-loader": "^3.4.2",
     "express": "^4.15.2",
+    "concurrently": "^5.1.0",
     "faker": "^4.1.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "mongodb": "^3.5.5",
-    "pug": "^2.0.0-rc.1",
-    "vue-loader": "^15.9.1",
-    "vue-template-compiler": "^2.6.11",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "mongodb": "^3.5.5"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "webpack-cli": "^3.3.11"
   }
 }

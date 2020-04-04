@@ -24,7 +24,7 @@
         "ServiceApiFunction": {
             "Type": "AWS::Serverless::Function",
             "Properties": {
-                "CodeUri": "s3://cold-lambda/ExpressLambda-xxxxxx/74e2e1d9d3a4506c7d1269aeec94c5d8",
+                "CodeUri": "s3://cold-lambda/ExpressLambda-xxxxxx/8f04db325f2edf551ced4ccbc6336b02",
                 "Handler": "service.handler",
                 "MemorySize": 1024,
                 "Runtime": "nodejs10.x",

@@ -7,7 +7,7 @@ stack_name=${PWD##*/}-xxxxxx
 template_file=${PWD##*/}
 bucket=$1
 
-./build_before
+npm run build:microfrontend
 
 # launch/update init stack
 aws cloudformation deploy --template-file ${PWD##*/}-init.yaml --stack-name ${PWD##*/}-init --capabilities CAPABILITY_NAMED_IAM --no-fail-on-empty-changeset
