@@ -34,3 +34,4 @@ sam deploy --template-file template-api-built.yaml --stack-name ${app_name}-${ve
 # launch/update zdt switch stack wand point to api from service
 RestApiId=$(aws cloudformation describe-stack-resources --stack-name ${app_name}-${version}-api --logical-resource-id ServiceApi --query 'StackResources[].{name:PhysicalResourceId}' --output text)
 aws cloudformation deploy --template-file template-version-pointer.yaml --stack-name ${app_name}-version-pointer --capabilities CAPABILITY_NAMED_IAM --no-fail-on-empty-changeset --parameter-overrides RestApiId=${RestApiId} APIDomainName=${APIDomainName} CreateMapping=true
+rm template-api-built.yaml
