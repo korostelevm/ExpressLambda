@@ -10,7 +10,7 @@ const router = express.Router()
 var faker = require('faker')
 var _ = require('lodash')
 var moment = require('moment')
- 
+ var fs = require('fs')
 router.use(compression())
 router.use(cors())
 router.use(bodyParser.json())
@@ -27,6 +27,28 @@ var connect_db = function(){
     })
   })
 }
+
+const Transform = require('stream').Transform;
+const parser = new Transform();
+const newLineStream = require('new-line');
+
+parser._transform = function(data, encoding, done) {
+    const str = data.toString().replace('</body>', '<script>var data = {"foo": "bar"}; console.log(data)</script></body>');
+    this.push(str);
+    done();
+  }; 
+
+
+router.get('/public/microfrontend.js', (req, res) => {
+  res.write('<!-- Begin stream -->\n');
+  fs
+  .createReadStream(`${__dirname}/${req.path.slice(1)}`)
+  .pipe(newLineStream())
+  .pipe(parser)
+  .on('end', () => {
+      res.write('\n<!-- End stream -->')
+  }).pipe(res);
+});
 
 
 router.get('/', (req, res) => {

@@ -15,7 +15,7 @@ Deploying -
     "
 echo -n "you down with that? (y/n)? "
 read answer
-if [ "$answer" != "${answer#[Yy\n]}" ] ;then
+if [ "$answer" != "${answer#[Yy]}" ] ;then
     echo Deploying ${app_name}-${version}
 else
     echo Aborted
