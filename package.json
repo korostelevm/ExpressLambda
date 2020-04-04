@@ -14,7 +14,8 @@
     "build:microfrontend": "rm -rf ./service/public/* && cd vue && ./node_modules/webpack/bin/webpack.js --config ./webpack.config.js -p  && cp ./public/* ../service/public/",
     "start": "export env=$npm_config_env && concurrently \"npm run start:shell\"  \"npm run start:microfrontend\"  \"nodemon app.local.js\"",
     "start:shell": "sleep 3  && open http://localhost:1111/",
-    "start:microfrontend": "cd vue && node ./node_modules/@vue/cli-service/bin/vue-cli-service.js serve --port 1111"
+    "start:microfrontend": "cd vue && node ./node_modules/@vue/cli-service/bin/vue-cli-service.js serve --port 1111",
+    "deploy":"./deploy.sh $npm_config_bucket"
   },
   "license": "Apache-2.0",
   "dependencies": {
