@@ -36,9 +36,7 @@ router.get('/', (req, res) => {
   res.sendFile(`${__dirname}/public/index.html`)
 })
 
-router.get('/public/*', (req, res) => {
-  res.sendFile(`${__dirname}/${req.path.slice(1)}`)
-})
+
 
 router.post('/users', async (req, res) => {
   var users = await models.users.get_users(db, req.body)
@@ -75,6 +73,10 @@ router.get('/public/microfrontend.js*', async (req, res) => {
     res.sendFile(module_path)
   }
 });
+
+router.get('/public/*', (req, res) => {
+  res.sendFile(`${__dirname}/${req.path.slice(1)}`)
+})
 
 
 // The aws-serverless-express library creates a server and listens on a Unix

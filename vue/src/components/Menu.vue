@@ -37,7 +37,7 @@ export default {
                 self.loading=null; self.error='Request timed out'}
                 , 20000);
             this.loading = 'loading'
-            fetch(this.$api + 'stub/thing', {
+            fetch(this.$api + '/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
