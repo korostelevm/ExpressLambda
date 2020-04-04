@@ -22,6 +22,7 @@ Deploying -
 #     exit 0
 # fi
 
+set -x
 npm run build:microfrontend
 
 aws cloudformation deploy --template-file template-static-infra.yaml --stack-name ${app_name}-static-infra --capabilities CAPABILITY_NAMED_IAM --no-fail-on-empty-changeset
