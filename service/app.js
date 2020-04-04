@@ -28,26 +28,16 @@ var connect_db = function(){
   })
 }
 
-const Transform = require('stream').Transform;
-const parser = new Transform();
-const newLineStream = require('new-line');
-
-parser._transform = function(data, encoding, done) {
-    const str = data.toString().replace('</body>', '<script>var data = {"foo": "bar"}; console.log(data)</script></body>');
-    this.push(str);
-    done();
-  }; 
 
 
-router.get('/public/microfrontend.js', (req, res) => {
-  res.write('<!-- Begin stream -->\n');
-  fs
-  .createReadStream(`${__dirname}/${req.path.slice(1)}`)
-  .pipe(newLineStream())
-  .pipe(parser)
-  .on('end', () => {
-      res.write('\n<!-- End stream -->')
-  }).pipe(res);
+router.get('/public/microfrontend.js*', async (req, res) => {
+  var module_path = `${__dirname}/${req.path.slice(1)}`
+  if(req.apiGateway){
+    var umd_module = await fs.readFileSync(module_path)
+    res.send(umd_module.toString().replace(/http:\/\/localhost:3000\//g, req.apiGateway.event.headers.Host))
+  }else{
+    res.sendFile(module_path)
+  }
 });
 
 
@@ -55,9 +45,9 @@ router.get('/', (req, res) => {
   res.sendFile(`${__dirname}/public/index.html`)
 })
 
-router.get('/public/*', (req, res) => {
-  res.sendFile(`${__dirname}/${req.path.slice(1)}`)
-})
+// router.get('/public/*', (req, res) => {
+  // res.sendFile(`${__dirname}/${req.path.slice(1)}`)
+// })
 
 router.get('/users', (req, res) => {
   res.json(users)
