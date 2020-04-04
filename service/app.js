@@ -34,11 +34,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/public/*', (req, res) => {
-  res.sendFile(`${__dirname}/public/${req.path.slice(1)}`)
-})
-
-router.get('/sam', (req, res) => {
-  res.sendFile(`${__dirname}/sam-logo.png`)
+  res.sendFile(`${__dirname}/${req.path.slice(1)}`)
 })
 
 router.get('/users', (req, res) => {
