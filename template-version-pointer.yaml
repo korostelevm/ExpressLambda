@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Parameters:
+  RestApiId:
+    Type: String
+    Default: production
+  CreateMapping:
+    Type: String
+    Default: 'true'
+  APIDomainName:
+    Type: String
+    Default: ""
+Conditions:
+  MakeMapping: !Equals [ !Ref CreateMapping, 'true' ]
+Resources:
+  APIBasePathMapping:
+    Condition: MakeMapping
+    Type: 'AWS::ApiGateway::BasePathMapping'
+    Properties:
+      Stage: Prod
+      DomainName: !Ref APIDomainName
+      RestApiId: !Ref RestApiId
+Outputs:
+  APIDomainName:
+    Description: 'API domain name'
+    Value: !Ref APIDomainName

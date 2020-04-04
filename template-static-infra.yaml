@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Globals:
+  Function:
+    Timeout: 15
+Parameters:
+  ServiceSubDomainName:
+    Type: String
+    Default: 'express'
+  RootUrl:
+    Type: String
+    Default: '{{resolve:ssm:/account/root-url:1}}'
+  SslCert: 
+    Type: String
+    Default: '{{resolve:ssm:/account/ssl-cert:1}}'
+  BucketName:
+    Type: String
+    Default: ''
+  Environment:
+    Type: String
+    Default: production
+  Namespace:
+    Type: String
+    Default: ''
+Resources:
+  APIDomainName:
+    Type: 'AWS::ApiGateway::DomainName'
+    Properties:
+      SecurityPolicy: TLS_1_2
+      RegionalCertificateArn:
+        Ref: SslCert
+      DomainName:
+        Fn::Join: [ '', [ Ref: ServiceSubDomainName, Ref: Namespace, '.', Ref: RootUrl ] ]
+      EndpointConfiguration:
+        Types: ['REGIONAL']
+  APIDomain:
+    Type: 'AWS::Route53::RecordSetGroup'
+    Properties:
+      HostedZoneName:
+        Fn::Join: [ '', [ Ref: RootUrl, '.' ] ]
+      RecordSets:
+        - Name:
+            Ref: APIDomainName
+          Type: A
+          AliasTarget:
+            DNSName:
+              Fn::GetAtt: [APIDomainName, RegionalDomainName]
+            HostedZoneId:
+              Fn::GetAtt: [APIDomainName, RegionalHostedZoneId]
+Outputs:
+  APIDomainName:
+    Description: 'API domain name'
+    Value:
+      Ref: APIDomainName
