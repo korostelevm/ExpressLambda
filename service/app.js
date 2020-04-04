@@ -30,11 +30,11 @@ var connect_db = function(){
 
 
 router.get('/', (req, res) => {
-  res.sendFile(`${__dirname}/spa/index.html`)
+  res.sendFile(`${__dirname}/public/index.html`)
 })
 
 router.get('/public/*', (req, res) => {
-  res.sendFile(`${__dirname}/spa/${req.path.slice(1)}`)
+  res.sendFile(`${__dirname}/public/${req.path.slice(1)}`)
 })
 
 router.get('/sam', (req, res) => {
