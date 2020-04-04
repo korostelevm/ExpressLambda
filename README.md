@@ -24,3 +24,8 @@ build app, this will build the vue spa module and move it to the lambda's public
 ```
 npm run build
 ```
+
+to depoloy, authenticate into aws and :
+```
+npm run deploy --bucket=YOUR-S3-BUCKET
+```
