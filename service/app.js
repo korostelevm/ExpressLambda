@@ -7,7 +7,8 @@ const compression = require('compression')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const app = express()
 const router = express.Router()
-
+var AWSXRay = require('aws-xray-sdk');
+app.use(AWSXRay.express.openSegment('ExpressLambda'));
 
 var fs = require('fs')
 var models = require('./models/models')
@@ -83,6 +84,8 @@ router.get('/public/*', (req, res) => {
 // Domain Socket for you, so you can remove the usual call to app.listen.
 // app.listen(3000)
 app.use('/', router)
+app.use(AWSXRay.express.closeSegment());
+
 
 // Export your express server so you can import it in the lambda function.
 module.exports = app
